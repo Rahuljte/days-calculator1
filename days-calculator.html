@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Days Calculator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background: #f8f8f8;
+    }
+    .calculator {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .result {
+      margin-top: 1.5rem;
+      font-size: 1.2rem;
+      color: #333;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<div class="calculator">
+  <h2>Days Calculator</h2>
+
+  <label for="startDate">Start Date:</label>
+  <input type="date" id="startDate">
+
+  <label for="endDate">End Date:</label>
+  <input type="date" id="endDate">
+
+  <button onclick="calculateDays()">Calculate Days Between</button>
+
+  <hr>
+
+  <label for="baseDate">Base Date:</label>
+  <input type="date" id="baseDate">
+
+  <label for="daysOffset">Days to Add/Subtract:</label>
+  <input type="number" id="daysOffset" placeholder="e.g. 5 or -3">
+
+  <button onclick="calculateFutureDate()">Calculate New Date</button>
+
+  <div class="result" id="result"></div>
+</div>
+
+<script>
+  function calculateDays() {
+    const start = new Date(document.getElementById("startDate").value);
+    const end = new Date(document.getElementById("endDate").value);
+    const diffTime = end - start;
+
+    if (isNaN(diffTime)) {
+      document.getElementById("result").innerText = "Please enter valid dates.";
+      return;
+    }
+
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    document.getElementById("result").innerText = `Difference: ${diffDays} day(s)`;
+  }
+
+  function calculateFutureDate() {
+    const base = new Date(document.getElementById("baseDate").value);
+    const offset = parseInt(document.getElementById("daysOffset").value);
+
+    if (isNaN(base.getTime()) || isNaN(offset)) {
+      document.getElementById("result").innerText = "Please enter a valid date and number.";
+      return;
+    }
+
+    base.setDate(base.getDate() + offset);
+    const newDate = base.toISOString().split('T')[0];
+    document.getElementById("result").innerText = `New Date: ${newDate}`;
+  }
+</script>
+
+</body>
+</html>
